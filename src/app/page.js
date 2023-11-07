@@ -40,9 +40,50 @@ function loadLabeledImages() {
 }
 
 export default function Home() {
+  const videoContainer = useRef(null);
   const video = useRef(null);
 
-  function handleVideoPlaying() {}
+  async function handleVideoPlaying() {
+    const canvas = faceapi.createCanvasFromMedia(video.current);
+    videoContainer.current.append(canvas);
+    const displaySize = {
+      width: video.current.width,
+      height: video.current.height,
+    };
+    faceapi.matchDimensions(canvas, displaySize);
+
+    const labeledFaceDescriptors = await loadLabeledImages();
+    const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.6);
+
+    setInterval(async () => {
+      const detections = await faceapi
+        .detectAllFaces(video.current, new faceapi.TinyFaceDetectorOptions())
+        .withFaceLandmarks()
+        .withFaceDescriptors()
+        .withFaceExpressions();
+      const resizedDetections = faceapi.resizeResults(detections, displaySize);
+
+      const results = resizedDetections.map((d) =>
+        faceMatcher.findBestMatch(d.descriptor)
+      );
+
+      canvas
+        .getContext('2d', { willReadFrequently: true })
+        .clearRect(0, 0, canvas.width, canvas.height);
+
+      results.forEach((result, i) => {
+        const { box } = resizedDetections[i].detection;
+        const drawBox = new faceapi.draw.DrawBox(box, {
+          label: result.toString(),
+        });
+        drawBox.draw(canvas);
+      });
+
+      // faceapi.draw.drawDetections(canvas, resizedDetections);
+      faceapi.draw.drawFaceLandmarks(canvas, resizedDetections);
+      faceapi.draw.drawFaceExpressions(canvas, resizedDetections);
+    }, 100);
+  }
 
   async function startVideo() {
     try {
@@ -79,13 +120,15 @@ export default function Home() {
     <div className={`pageContainer ${styles.homePage}`}>
       <h1>Detecção facial</h1>
       <p>Detectando aluno...</p>
-      <div className={styles.videoContainer}>
+      <div ref={videoContainer} className={styles.videoContainer}>
         <video
+          width={720}
+          height={560}
           ref={video}
           id="video"
           muted
           onPlaying={handleVideoPlaying}
-        ></video>
+        />
       </div>
     </div>
   );
