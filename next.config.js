@@ -1,4 +1,17 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {}
+const nextConfig = {
+  webpack(config) {
+    // eslint-disable-next-line no-param-reassign
+    config.resolve.fallback = {
+      // if you miss it, all the other options in fallback, specified
+      // by next.js will be dropped.
+      ...config.resolve.fallback,
 
-module.exports = nextConfig
+      fs: false, // the solution
+    };
+
+    return config;
+  },
+};
+
+module.exports = nextConfig;
