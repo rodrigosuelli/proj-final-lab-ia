@@ -1,2 +1,18 @@
 .homePage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.homePage h1 {
+  margin-bottom: 10px;
+}
+
+.homePage p {
+  margin-bottom: 10px;
+}
+
+.homePage canvas {
+  position: absolute;
 }
