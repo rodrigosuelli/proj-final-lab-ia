@@ -5,7 +5,10 @@ export default function Home() {
     <div className={`pageContainer ${styles.homePage}`}>
       <h1>Detecção facial</h1>
       <p>Detectando aluno...</p>
-      <video id="video" width="720" height="560" autoPlay muted></video>
+      <div className={styles.videoContainer}>
+        <video id="video" autoPlay muted></video>
+        <canvas></canvas>
+      </div>
     </div>
   );
 }
