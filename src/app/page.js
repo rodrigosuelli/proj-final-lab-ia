@@ -42,15 +42,14 @@ function loadLabeledImages() {
 export default function Home() {
   const videoContainer = useRef(null);
   const video = useRef(null);
+  const canvas = useRef(null);
 
   async function handleVideoPlaying() {
-    const canvas = faceapi.createCanvasFromMedia(video.current);
-    videoContainer.current.append(canvas);
     const displaySize = {
       width: video.current.width,
       height: video.current.height,
     };
-    faceapi.matchDimensions(canvas, displaySize);
+    faceapi.matchDimensions(canvas.current, displaySize);
 
     const labeledFaceDescriptors = await loadLabeledImages();
     const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.6);
@@ -67,21 +66,21 @@ export default function Home() {
         faceMatcher.findBestMatch(d.descriptor)
       );
 
-      canvas
+      canvas.current
         .getContext('2d', { willReadFrequently: true })
-        .clearRect(0, 0, canvas.width, canvas.height);
+        .clearRect(0, 0, canvas.current.width, canvas.current.height);
 
       results.forEach((result, i) => {
         const { box } = resizedDetections[i].detection;
         const drawBox = new faceapi.draw.DrawBox(box, {
           label: result.toString(),
         });
-        drawBox.draw(canvas);
+        drawBox.draw(canvas.current);
       });
 
       // faceapi.draw.drawDetections(canvas, resizedDetections);
-      faceapi.draw.drawFaceLandmarks(canvas, resizedDetections);
-      faceapi.draw.drawFaceExpressions(canvas, resizedDetections);
+      faceapi.draw.drawFaceLandmarks(canvas.current, resizedDetections);
+      faceapi.draw.drawFaceExpressions(canvas.current, resizedDetections);
     }, 100);
   }
 
@@ -129,6 +128,7 @@ export default function Home() {
           muted
           onPlaying={handleVideoPlaying}
         />
+        <canvas width={720} height={560} ref={canvas} />
       </div>
     </div>
   );
