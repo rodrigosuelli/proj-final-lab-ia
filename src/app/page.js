@@ -2,21 +2,11 @@
 
 import * as faceapi from 'face-api.js';
 import { useEffect, useRef } from 'react';
+
+import labels from './labels.json';
 import styles from './page.module.css';
 
 function loadLabeledImages() {
-  const labels = [
-    'Black Widow',
-    'Captain America',
-    'Captain Marvel',
-    'Hawkeye',
-    'Jim Rhodes',
-    'Thor',
-    'Tony Stark',
-    'Rodrigo',
-    'Lucas',
-  ];
-
   return Promise.all(
     labels.map(async (label) => {
       const descriptions = [];
