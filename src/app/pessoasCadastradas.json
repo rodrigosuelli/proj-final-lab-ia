@@ -1,0 +1,32 @@
+[
+  {
+    "nome": "Lucas Batista da Silva",
+    "apelido": "Lucas",
+    "imgFolderName": "Lucas",
+    "unidades": "Fatec Mogi Mirim",
+    "curso": "ADS",
+    "turno": "Manhã",
+    "periodo": 6,
+    "descricao": "Estou explorando o universo da TI, a cada dia me surpreendo com os poderes da tecnologia e o seu potencial para facilitar a vida das pessoas."
+  },
+  {
+    "nome": "Rodrigo Henrique Suélli",
+    "apelido": "Rodrigo",
+    "imgFolderName": "Rodrigo",
+    "unidades": "Fatec Mogi Mirim",
+    "curso": "ADS",
+    "turno": "Manhã",
+    "periodo": 6,
+    "descricao": "Atualmente apaixonado por Javascript, curte programação, tecnologia, games e cultura pop/geek. Desejo trabalhar com programação."
+  },
+  {
+    "nome": "Vinicius de Andrade",
+    "apelido": "Vinicius",
+    "imgFolderName": "Vinicius",
+    "unidades": "Fatec Mogi Mirim",
+    "curso": "ADS",
+    "turno": "Manhã",
+    "periodo": 6,
+    "descricao": "O conhecimento da tecnologia é essencial, quero me continuar me aprofundando nesta área. Se quiser tomar um cafezinho visite minha padaria."
+  }
+]

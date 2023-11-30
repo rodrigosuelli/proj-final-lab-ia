@@ -3,17 +3,17 @@
 import * as faceapi from 'face-api.js';
 import { useEffect, useRef } from 'react';
 
-import labels from './labels.json';
+import pessoasCadastradas from './pessoasCadastradas.json';
 import styles from './page.module.css';
 
 function loadLabeledImages() {
   return Promise.all(
-    labels.map(async (label) => {
+    pessoasCadastradas.map(async (pessoa) => {
       const descriptions = [];
 
       for (let i = 1; i <= 2; i++) {
         const img = await faceapi.fetchImage(
-          `/labeled_images/${label}/${i}.jpg`
+          `/labeled_images/${pessoa.imgFolderName}/${i}.jpg`
         );
 
         const detections = await faceapi
@@ -24,7 +24,7 @@ function loadLabeledImages() {
         descriptions.push(detections.descriptor);
       }
 
-      return new faceapi.LabeledFaceDescriptors(label, descriptions);
+      return new faceapi.LabeledFaceDescriptors(pessoa.apelido, descriptions);
     })
   );
 }
