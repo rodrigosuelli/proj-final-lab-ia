@@ -4,7 +4,6 @@ import * as faceapi from 'face-api.js';
 import { useEffect, useRef, useState } from 'react';
 
 import Image from 'next/image';
-import profilePic from '../../public/labeled_images/Rodrigo/profilePic.png';
 
 import pessoasCadastradas from './pessoasCadastradas.json';
 import styles from './page.module.css';
@@ -65,12 +64,16 @@ export default function Home() {
         .getContext('2d', { willReadFrequently: true })
         .clearRect(0, 0, canvas.current.width, canvas.current.height);
 
-      const finalDetections = results.map((result, i) => {
+      const finalDetections = results.flatMap((result, i) => {
         const { box } = resizedDetections[i].detection;
         const drawBox = new faceapi.draw.DrawBox(box, {
           label: result.toString(),
         });
         drawBox.draw(canvas.current);
+
+        if (result.label === 'unknown') {
+          return [];
+        }
 
         const data = pessoasCadastradas.find(
           (pessoa) => pessoa.label === result.label
