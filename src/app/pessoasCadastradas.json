@@ -1,5 +1,6 @@
 [
   {
+    "id": 1,
     "nome": "Lucas Batista da Silva",
     "label": "Lucas",
     "imgFolderName": "Lucas",
@@ -10,6 +11,7 @@
     "descricao": "Estou explorando o universo da TI, a cada dia me surpreendo com os poderes da tecnologia e o seu potencial para facilitar a vida das pessoas."
   },
   {
+    "id": 2,
     "nome": "Rodrigo Henrique Suélli",
     "label": "Rodrigo",
     "imgFolderName": "Rodrigo",
@@ -20,6 +22,7 @@
     "descricao": "Atualmente apaixonado por Javascript, curte programação, tecnologia, games e cultura pop/geek. Desejo trabalhar com programação."
   },
   {
+    "id": 3,
     "nome": "Vinicius de Andrade",
     "label": "Vinicius",
     "imgFolderName": "Vinicius",

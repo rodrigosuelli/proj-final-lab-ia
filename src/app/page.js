@@ -61,19 +61,35 @@ export default function Home() {
         faceMatcher.findBestMatch(d.descriptor)
       );
 
-      setAlunosDetectados(results);
-
       canvas.current
         .getContext('2d', { willReadFrequently: true })
         .clearRect(0, 0, canvas.current.width, canvas.current.height);
 
-      results.forEach((result, i) => {
+      const finalDetections = results.map((result, i) => {
         const { box } = resizedDetections[i].detection;
         const drawBox = new faceapi.draw.DrawBox(box, {
           label: result.toString(),
         });
         drawBox.draw(canvas.current);
+
+        const data = pessoasCadastradas.find(
+          (pessoa) => pessoa.label === result.label
+        );
+
+        return {
+          ...result,
+          id: data.id,
+          nome: data.nome,
+          imgFolderName: data.imgFolderName,
+          unidade: data.unidade,
+          curso: data.curso,
+          turno: data.turno,
+          periodo: data.periodo,
+          descricao: data.descricao,
+        };
       });
+
+      setAlunosDetectados(finalDetections);
 
       // faceapi.draw.drawDetections(canvas, resizedDetections);
       faceapi.draw.drawFaceLandmarks(canvas.current, resizedDetections);
@@ -137,27 +153,23 @@ export default function Home() {
           <h2 className={styles.rightTitle}>Detectando agora:</h2>
           {alunosDetectados.length ? (
             alunosDetectados.map((aluno) => (
-              <div key={aluno.label} className={styles.profile}>
+              <div key={aluno.id} className={styles.profile}>
                 <div className={styles.profileWrapper}>
                   <Image
                     width={105}
                     height={105}
-                    src={profilePic}
+                    src={`/labeled_images/${aluno.imgFolderName}/profilePic.png`}
                     alt="rosto do aluno"
                   />
                   <div className={styles.profileInfo}>
-                    <p className={styles.profileName}>
-                      Rodrigo Henrique Suelli
+                    <p className={styles.profileName}>{aluno.nome}</p>
+                    <p>
+                      {aluno.periodo}° Período - {aluno.curso} {aluno.turno}
                     </p>
-                    <p>6° Período - ADS Manhã</p>
-                    <p>Fatec Mogi Mirim</p>
+                    <p>{aluno.unidade}</p>
                   </div>
                 </div>
-                <div className={styles.profileDesc}>
-                  Estou explorando o universo da TI, a cada dia me surpreendo
-                  com os poderes da tecnologia e o seu potencial para facilitar
-                  a vida das pessoas.
-                </div>
+                <div className={styles.profileDesc}>{aluno.descricao}</div>
               </div>
             ))
           ) : (
