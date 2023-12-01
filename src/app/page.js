@@ -1,7 +1,7 @@
 'use client';
 
 import * as faceapi from 'face-api.js';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import Image from 'next/image';
 import profilePic from '../../public/labeled_images/Rodrigo/profilePic.png';
@@ -16,7 +16,7 @@ function loadLabeledImages() {
 
       for (let i = 1; i <= 2; i++) {
         const img = await faceapi.fetchImage(
-          `/labeled_images/${pessoa.imgFolderName}/${i}.jpg`
+          `/labeled_images/${pessoa.label}/${i}.jpg`
         );
 
         const detections = await faceapi
@@ -27,12 +27,14 @@ function loadLabeledImages() {
         descriptions.push(detections.descriptor);
       }
 
-      return new faceapi.LabeledFaceDescriptors(pessoa.apelido, descriptions);
+      return new faceapi.LabeledFaceDescriptors(pessoa.label, descriptions);
     })
   );
 }
 
 export default function Home() {
+  const [alunosDetectados, setAlunosDetectados] = useState([]);
+
   const videoContainer = useRef(null);
   const video = useRef(null);
   const canvas = useRef(null);
@@ -58,6 +60,8 @@ export default function Home() {
       const results = resizedDetections.map((d) =>
         faceMatcher.findBestMatch(d.descriptor)
       );
+
+      setAlunosDetectados(results);
 
       canvas.current
         .getContext('2d', { willReadFrequently: true })
@@ -131,29 +135,36 @@ export default function Home() {
       <div className={styles.rightContent}>
         <div className={styles.rightContentWrapper}>
           <h2 className={styles.rightTitle}>Detectando agora:</h2>
-          <p className={styles.zeroAlunos}>
-            Ainda não foi detectado nenhum aluno...
-          </p>
-          <div className={styles.profile}>
-            <div className={styles.profileWrapper}>
-              <Image
-                width={105}
-                height={105}
-                src={profilePic}
-                alt="rosto do aluno"
-              />
-              <div className={styles.profileInfo}>
-                <p className={styles.profileName}>Rodrigo Henrique Suelli</p>
-                <p>6° Período - ADS Manhã</p>
-                <p>Fatec Mogi Mirim</p>
+          {alunosDetectados.length ? (
+            alunosDetectados.map((aluno) => (
+              <div key={aluno.label} className={styles.profile}>
+                <div className={styles.profileWrapper}>
+                  <Image
+                    width={105}
+                    height={105}
+                    src={profilePic}
+                    alt="rosto do aluno"
+                  />
+                  <div className={styles.profileInfo}>
+                    <p className={styles.profileName}>
+                      Rodrigo Henrique Suelli
+                    </p>
+                    <p>6° Período - ADS Manhã</p>
+                    <p>Fatec Mogi Mirim</p>
+                  </div>
+                </div>
+                <div className={styles.profileDesc}>
+                  Estou explorando o universo da TI, a cada dia me surpreendo
+                  com os poderes da tecnologia e o seu potencial para facilitar
+                  a vida das pessoas.
+                </div>
               </div>
-            </div>
-            <div className={styles.profileDesc}>
-              Estou explorando o universo da TI, a cada dia me surpreendo com os
-              poderes da tecnologia e o seu potencial para facilitar a vida das
-              pessoas.
-            </div>
-          </div>
+            ))
+          ) : (
+            <p className={styles.zeroAlunos}>
+              Ainda não foi detectado nenhum aluno...
+            </p>
+          )}
         </div>
       </div>
     </div>
