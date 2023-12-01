@@ -57,8 +57,9 @@
   overscroll-behavior-y: none;
 }
 
-/* .rightContentWrapper {
-} */
+.rightContentWrapper {
+  min-width: 386px;
+}
 
 .rightContent .rightTitle {
   margin-bottom: 4vh;
