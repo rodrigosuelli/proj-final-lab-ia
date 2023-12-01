@@ -1,7 +1,7 @@
 [
   {
     "nome": "Lucas Batista da Silva",
-    "apelido": "Lucas",
+    "label": "Lucas",
     "imgFolderName": "Lucas",
     "unidades": "Fatec Mogi Mirim",
     "curso": "ADS",
@@ -11,7 +11,7 @@
   },
   {
     "nome": "Rodrigo Henrique Suélli",
-    "apelido": "Rodrigo",
+    "label": "Rodrigo",
     "imgFolderName": "Rodrigo",
     "unidades": "Fatec Mogi Mirim",
     "curso": "ADS",
@@ -21,7 +21,7 @@
   },
   {
     "nome": "Vinicius de Andrade",
-    "apelido": "Vinicius",
+    "label": "Vinicius",
     "imgFolderName": "Vinicius",
     "unidades": "Fatec Mogi Mirim",
     "curso": "ADS",
